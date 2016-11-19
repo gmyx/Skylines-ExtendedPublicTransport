@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace EPTUI
+namespace EPTUI2
 {
     public class UITitleContainer : UIPanel
     {

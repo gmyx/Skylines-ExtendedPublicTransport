@@ -3,7 +3,7 @@ using System;
 using ColossalFramework;
 using UnityEngine;
 
-namespace EPTUI
+namespace EPTUI2
 {
     public class UITransportLineRow : UIPanel
     {

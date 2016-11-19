@@ -1,4 +1,4 @@
-﻿namespace EPTUI
+﻿namespace EPTUI2
 {
     static class ModDebug
     {

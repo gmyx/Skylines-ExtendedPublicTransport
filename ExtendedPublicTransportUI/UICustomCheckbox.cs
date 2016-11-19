@@ -1,6 +1,6 @@
 ﻿using ColossalFramework.UI;
 
-namespace EPTUI
+namespace EPTUI2
 {
     public class UICustomCheckbox : UISprite
     {

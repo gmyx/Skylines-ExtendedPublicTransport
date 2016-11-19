@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-namespace EPTUI
+namespace EPTUI2
 {
 	public class LineComparer : Comparer<GameObject>
 	{

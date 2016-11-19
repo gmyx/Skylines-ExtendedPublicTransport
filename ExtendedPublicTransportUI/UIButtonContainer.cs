@@ -1,7 +1,7 @@
 ﻿using ColossalFramework.UI;
 using UnityEngine;
 
-namespace EPTUI
+namespace EPTUI2
 {
     public class UIButtonContainer : UIPanel
     {

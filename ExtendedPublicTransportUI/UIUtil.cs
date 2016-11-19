@@ -1,7 +1,7 @@
 ﻿using ColossalFramework.UI;
 using System.Collections.Generic;
 
-namespace EPTUI
+namespace EPTUI2
 {
     public static class UIUtil
     {

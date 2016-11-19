@@ -2,12 +2,12 @@
 using ICities;
 using UnityEngine;
 
-namespace EPTUI
+namespace EPTUI2
 {
     public class Mod : IUserMod
     {
-        public string Name { get { return "Extended Public Transport UI"; } }
-        public string Description { get { return "Provides additional list views and toggles for public transport"; } }
+        public string Name { get { return "Extended Public Transport UI (+Trams)"; } }
+        public string Description { get { return "Provides additional list views and toggles for public transport, including trams"; } }
     }
 
     public class TransportObserver : ThreadingExtensionBase
@@ -47,14 +47,17 @@ namespace EPTUI
         private UITransportPanel _extendedBusPanel;
         private UITransportPanel _extendedMetroPanel;
         private UITransportPanel _extendedTrainPanel;
+        private UITransportPanel _extendedTramPanel;
 
         private UIComponent _busPanel;
         private UIComponent _metroPanel;
         private UIComponent _trainPanel;
+        private UIComponent _tramPanel;
 
         private UIComponent _busBg;
         private UIComponent _metroBg;
         private UIComponent _trainBg;
+        private UIComponent _tramBg;
 
         private LoadMode _mode;
 
@@ -83,6 +86,11 @@ namespace EPTUI
             _extendedTrainPanel = goTrain.AddComponent<UITransportPanel>();
             _extendedTrainPanel.transform.parent = view.transform;
             _extendedTrainPanel.Type = TransportInfo.TransportType.Train;
+
+            var goTram = new GameObject("ExtendedTramPanel");
+            _extendedTramPanel = goTram.AddComponent<UITransportPanel>();
+            _extendedTramPanel.transform.parent = view.transform;
+            _extendedTramPanel.Type = TransportInfo.TransportType.Tram;
 
             HookIntoNativeUI();
         }
@@ -122,12 +130,21 @@ namespace EPTUI
                 _trainPanel.eventMouseLeave -= TrainPanelOnEventMouseLeave;
             }
 
+            if (_tramPanel != null)
+            {
+                _tramPanel.eventClick -= TramPanelOnEventClick;
+                _tramPanel.eventMouseHover -= TramPanelOnEventMouseHover;
+                _tramPanel.eventMouseLeave -= TramPanelOnEventMouseLeave;
+            }
+
             if (_extendedBusPanel != null)
                 GameObject.Destroy(_extendedBusPanel.gameObject);
             if (_extendedMetroPanel != null)
                 GameObject.Destroy(_extendedMetroPanel.gameObject);
             if (_extendedTrainPanel != null)
                 GameObject.Destroy(_extendedTrainPanel.gameObject);
+            if (_extendedTramPanel != null)
+                GameObject.Destroy(_extendedTramPanel.gameObject);
         }
 
         private void HookIntoNativeUI()
@@ -135,10 +152,12 @@ namespace EPTUI
             _busPanel = UIUtil.FindUIComponent("BusPanel");
             _metroPanel = UIUtil.FindUIComponent("MetroPanel");
             _trainPanel = UIUtil.FindUIComponent("TrainPanel");
+            _tramPanel = UIUtil.FindUIComponent("TramPanel");
 
             _busBg = UIUtil.FindUIComponent("BusBackground");
             _metroBg = UIUtil.FindUIComponent("MetroBackground");
             _trainBg = UIUtil.FindUIComponent("TrainBackground");
+            _tramBg = UIUtil.FindUIComponent("TramBackground");
 
             if (_busPanel == null || _busBg == null)
             {
@@ -158,6 +177,12 @@ namespace EPTUI
                 return;
             }
 
+            if (_tramPanel == null || _tramBg == null)
+            {
+                ModDebug.Error("Failed to locate TramPanel - could not hook into native UI.");
+                return;
+            }
+
             // extended bus hook
             _busPanel.eventClick += BusPanelOnEventClick;
             _busPanel.eventMouseHover += BusPanelOnEventMouseHover;
@@ -173,6 +198,11 @@ namespace EPTUI
             _trainPanel.eventMouseHover += TrainPanelOnEventMouseHover;
             _trainPanel.eventMouseLeave += TrainPanelOnEventMouseLeave;
 
+            // extended tram hook
+            _tramPanel.eventClick += TramPanelOnEventClick;
+            _tramPanel.eventMouseHover += TramPanelOnEventMouseHover;
+            _tramPanel.eventMouseLeave += TramPanelOnEventMouseLeave;
+
             // hide all extended panels, when the transport info view gets closed
             _busPanel.parent.eventVisibilityChanged += InfoPanelOnEventVisibilityChanged;
         }
@@ -181,6 +211,7 @@ namespace EPTUI
         {
             _extendedMetroPanel.isVisible = false;
             _extendedTrainPanel.isVisible = false;
+            _extendedTramPanel.isVisible = false;
             _extendedBusPanel.isVisible = !_extendedBusPanel.isVisible;
             _extendedBusPanel.relativePosition = new Vector3(396, 58);
         }
@@ -199,6 +230,7 @@ namespace EPTUI
         {
             _extendedBusPanel.isVisible = false;
             _extendedTrainPanel.isVisible = false;
+            _extendedTramPanel.isVisible = false;
             _extendedMetroPanel.isVisible = !_extendedMetroPanel.isVisible;
             _extendedMetroPanel.relativePosition = new Vector3(396, 58);
         }
@@ -216,6 +248,7 @@ namespace EPTUI
         {
             _extendedBusPanel.isVisible = false;
             _extendedMetroPanel.isVisible = false;
+            _extendedTramPanel.isVisible = false;
             _extendedTrainPanel.isVisible = !_extendedTrainPanel.isVisible;
             _extendedTrainPanel.relativePosition = new Vector3(396, 58);
         }
@@ -237,7 +270,27 @@ namespace EPTUI
                 _extendedBusPanel.isVisible = false;
                 _extendedMetroPanel.isVisible = false;
                 _extendedTrainPanel.isVisible = false;
+                _extendedTramPanel.isVisible = false;
             }
+        }
+
+        private void TramPanelOnEventClick(UIComponent component, UIMouseEventParameter eventParam)
+        {
+            _extendedBusPanel.isVisible = false;
+            _extendedMetroPanel.isVisible = false;
+            _extendedTrainPanel.isVisible = false;
+            _extendedTramPanel.isVisible = !_extendedTramPanel.isVisible;
+            _extendedTramPanel.relativePosition = new Vector3(396, 58);
+        }
+
+        private void TramPanelOnEventMouseHover(UIComponent component, UIMouseEventParameter eventParam)
+        {
+            _tramBg.color = new Color32(84, 182, 231, 255);
+        }
+
+        private void TramPanelOnEventMouseLeave(UIComponent component, UIMouseEventParameter eventParam)
+        {
+            _tramBg.color = new Color32(44, 142, 191, 255);
         }
 
     }

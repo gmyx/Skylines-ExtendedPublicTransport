@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EPTUI
+namespace EPTUI2
 {
     public delegate void SortTransportLinesDelegate (string sortFieldName = "LineName");
 
@@ -55,6 +55,9 @@ namespace EPTUI
                     break;
                 case TransportInfo.TransportType.Train:
                     _title.TitleText = String.Format("Train Lines ({0})", _transportLineLabels.Count);
+                    break;
+                case TransportInfo.TransportType.Tram:
+                    _title.TitleText = String.Format("Tram Lines ({0})", _transportLineLabels.Count);
                     break;
             }
         }
@@ -116,6 +119,10 @@ namespace EPTUI
                 case TransportInfo.TransportType.Train:
                     _title.IconSprite = "SubBarPublicTransportTrain";
                     _title.TitleText = "Train Lines";
+                    break;
+                case TransportInfo.TransportType.Tram:
+                    _title.IconSprite = "SubBarPublicTransportTram";
+                    _title.TitleText = "Tram Lines";
                     break;
             }
 
