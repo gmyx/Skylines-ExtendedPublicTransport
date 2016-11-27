@@ -120,6 +120,54 @@ namespace EPTUI2
             return segments[0].m_bounds.center;
         }
 
+        public static bool GetDay(ushort lineID)
+        {
+            bool lDay = false;
+            bool lNight = false;
+            Tm.m_lines.m_buffer[lineID].GetActive(out lDay,out lNight);
+            return lDay;
+        }
+
+        public static void SetDay(ushort lineID, bool active)
+        {
+            Tm.m_lines.m_buffer[lineID].SetActive(!active, GetNight(lineID));
+            switch (active)
+            {
+                case true:
+                    //day is active, so turn off
+                    Tm.m_lines.m_buffer[lineID].m_flags &= ~TransportLine.Flags.DisabledDay;
+                    break;
+                case false:
+                    //day is inactive, so turn on
+                    Tm.m_lines.m_buffer[lineID].m_flags |= TransportLine.Flags.DisabledDay;
+                    break;
+            }            
+        }
+
+        public static bool GetNight(ushort lineID)
+        {
+            bool lDay = false;
+            bool lNight = false;
+            Tm.m_lines.m_buffer[lineID].GetActive(out lDay, out lNight);
+            return lNight;
+        }
+
+        public static void SetNight(ushort lineID, bool active)
+        {
+            Tm.m_lines.m_buffer[lineID].SetActive(GetDay(lineID), !active);
+            switch (active)
+            {
+                case true:
+                    //day is active, so turn off
+                    Tm.m_lines.m_buffer[lineID].m_flags &= ~TransportLine.Flags.DisabledNight;
+                    break;
+                case false:
+                    //day is inactive, so turn on
+                    Tm.m_lines.m_buffer[lineID].m_flags |= TransportLine.Flags.DisabledNight;
+                    break;
+            }
+        }
+
         public static HashSet<ushort> GetUsedTransportLineIndices()
         {
             // Hack - Since it seems there is no way to get a List of

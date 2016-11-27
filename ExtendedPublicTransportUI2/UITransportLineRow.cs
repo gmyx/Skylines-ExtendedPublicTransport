@@ -19,6 +19,8 @@ namespace EPTUI2
         private UILabel _passengers;
         private UILabel _trips;
         private UILabel _vehicles;
+        private UICustomCheckbox _dayOnly;
+        private UICustomCheckbox _nightOnly;
 
         private UIButton _deleteButton;
 
@@ -66,7 +68,7 @@ namespace EPTUI2
         {
             get { return TransportUtil.GetVehicleCount (LineID); }
         }
-
+                
         public InstanceID InstanceID
         {
             get { return _instanceID; }
@@ -123,6 +125,9 @@ namespace EPTUI2
             _passengers = AddUIComponent<UILabel>();
             _trips = AddUIComponent<UILabel>();
             _vehicles = AddUIComponent<UILabel>();
+            _dayOnly = AddUIComponent<UICustomCheckbox>();
+            _nightOnly = AddUIComponent<UICustomCheckbox>();
+
             _deleteButton = AddUIComponent<UIButton>();
             _deleteButton.size = new Vector2(17, 17);
             _deleteButton.tooltip = "Delete line";
@@ -137,7 +142,9 @@ namespace EPTUI2
             _passengers.relativePosition = new Vector3(225, 0);
             _trips.relativePosition = new Vector3(320, 0);
             _vehicles.relativePosition = new Vector3(401, 0);
-            _deleteButton.relativePosition = new Vector3(435, 0);
+            _dayOnly.relativePosition = new Vector3(455, 0);
+            _nightOnly.relativePosition = new Vector3(490, 0);
+            _deleteButton.relativePosition = new Vector3(515, 0);
 
             _name.textColor = new Color32(185, 221, 254, 255);
             _stops.textColor = new Color32(185, 221, 254, 255);
@@ -146,8 +153,14 @@ namespace EPTUI2
             _vehicles.textColor = new Color32(185, 221, 254, 255);
 
             _checkBox.size = new Vector2(12, 12);
+            _dayOnly.size = new Vector2(12, 12);
+            _nightOnly.size = new Vector2(12, 12);
 
-            // event handler
+            //init the day/night checkboxes
+            _dayOnly.IsChecked = TransportUtil.GetDay(LineID);
+            _nightOnly.IsChecked = TransportUtil.GetNight(LineID);
+
+            // event handler for on/off of the line
             _checkBox.eventClick += (component, param) =>
             {
                 _checkBox.IsChecked = !_checkBox.IsChecked;
@@ -156,6 +169,22 @@ namespace EPTUI2
                     TransportUtil.HideTransportLine(LineID);
                 else
                     TransportUtil.ShowTransportLine(LineID);
+            };
+
+            // event handler for on/off of day
+            _dayOnly.eventClick += (component, param) =>
+            {
+                _dayOnly.IsChecked = !_dayOnly.IsChecked;
+                                
+                TransportUtil.SetDay(LineID, _dayOnly.IsChecked);            
+            };
+
+            // event handler for on/off of night
+            _nightOnly.eventClick += (component, param) =>
+            {
+                _nightOnly.IsChecked = !_nightOnly.IsChecked;
+
+                TransportUtil.SetNight(LineID, _nightOnly.IsChecked);
             };
 
             _name.eventClick += (component, param) =>
@@ -242,6 +271,8 @@ namespace EPTUI2
             _passengers.text = String.Format("{0}/{1}", residents, tourists);
             _trips.text = String.Format("{0}%", Trips);
             _vehicles.text = Vehicles.ToString();
+            _dayOnly.IsChecked = TransportUtil.GetDay(LineID);
+            _nightOnly.IsChecked = TransportUtil.GetNight(LineID);
 
             _color.selectedColor = TransportUtil.GetLineColor(LineID);
             IsChecked = !TransportUtil.IsTransportLineHidden(LineID);

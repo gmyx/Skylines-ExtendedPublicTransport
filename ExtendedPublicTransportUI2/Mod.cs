@@ -290,7 +290,7 @@ namespace EPTUI2
 
         private void TramPanelOnEventMouseLeave(UIComponent component, UIMouseEventParameter eventParam)
         {
-            _tramBg.color = new Color32(44, 142, 191, 255);
+            _tramBg.color = new Color32(121, 1, 220, 255);
         }
 
     }

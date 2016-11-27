@@ -81,8 +81,8 @@ namespace EPTUI2
             isVisible = false;
             canFocus = true;
             isInteractive = true;
-            width = 467;
-            height = 347;
+            width = 550; // 467;
+            height = 347;// 347;
 
             autoLayout = true;
             autoLayoutDirection = LayoutDirection.Vertical;

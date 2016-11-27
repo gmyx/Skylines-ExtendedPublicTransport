@@ -12,6 +12,8 @@ namespace EPTUI2
         private UILabel _passengers;
         private UILabel _trips;
         private UILabel _vehicles;
+        private UISprite _dayOnly;
+        private UISprite _nightOnly;
 
         public override void Start()
         {
@@ -22,12 +24,16 @@ namespace EPTUI2
             _passengers = AddUIComponent<UILabel>();
             _trips = AddUIComponent<UILabel>();
             _vehicles = AddUIComponent<UILabel>();
+            _dayOnly = AddUIComponent<UISprite>();
+            _nightOnly = AddUIComponent<UISprite>();
 
             _name.relativePosition = new Vector3(43, 0);
             _stops.relativePosition = new Vector3(160, 0);
             _passengers.relativePosition = new Vector3(207, 0);
             _trips.relativePosition = new Vector3(294, 0);
             _vehicles.relativePosition = new Vector3(380, 0);
+            _dayOnly.relativePosition = new Vector3(450, -2);
+            _nightOnly.relativePosition = new Vector3(490, -2);
 
             _name.textScale = 0.85f;
             _stops.textScale = 0.85f;
@@ -40,6 +46,8 @@ namespace EPTUI2
             _passengers.text = "Passengers";
             _trips.text = "Trips Saved";
             _vehicles.text = "Vehicles";
+            _dayOnly.spriteName = "IconSun";
+            _nightOnly.spriteName = "IconMoon";
 
             // sort by each column
             // ultimately based on value from UITransportLineRow (via LineComparer)
@@ -49,7 +57,7 @@ namespace EPTUI2
             _trips.eventClick += (component, param) => SortDelegate("Trips");
             _vehicles.eventClick += (component, param) => SortDelegate("Vehicles");
 
-            width = 450;
+            width = 550;
             height = 20;
         }
     }
