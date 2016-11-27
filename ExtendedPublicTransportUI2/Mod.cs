@@ -1,4 +1,5 @@
-﻿using ColossalFramework.UI;
+﻿using ColossalFramework;
+using ColossalFramework.UI;
 using ICities;
 using UnityEngine;
 
@@ -19,6 +20,7 @@ namespace EPTUI2
 
         public override void OnUpdate(float realTimeDelta, float simulationTimeDelta)
         {
+
             var handlers = LineCountChanged;
             if (handlers == null)
                 return;
@@ -285,7 +287,7 @@ namespace EPTUI2
 
         private void TramPanelOnEventMouseHover(UIComponent component, UIMouseEventParameter eventParam)
         {
-            _tramBg.color = new Color32(84, 182, 231, 255);
+            _tramBg.color = new Color32(186, 71, 254, 255);
         }
 
         private void TramPanelOnEventMouseLeave(UIComponent component, UIMouseEventParameter eventParam)

@@ -32,7 +32,7 @@ namespace EPTUI2
             _passengers.relativePosition = new Vector3(207, 0);
             _trips.relativePosition = new Vector3(294, 0);
             _vehicles.relativePosition = new Vector3(380, 0);
-            _dayOnly.relativePosition = new Vector3(450, -2);
+            _dayOnly.relativePosition = new Vector3(452, -2);
             _nightOnly.relativePosition = new Vector3(490, -2);
 
             _name.textScale = 0.85f;

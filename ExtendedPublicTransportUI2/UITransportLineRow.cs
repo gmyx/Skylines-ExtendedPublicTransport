@@ -99,7 +99,7 @@ namespace EPTUI2
             base.Awake();
 
             height = 16;
-            width = 450;
+            width = 530;//450;
         }
 
         public override void Start()
